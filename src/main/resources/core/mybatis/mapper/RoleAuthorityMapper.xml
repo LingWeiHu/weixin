@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hutu.weixin.weiliaotuan.core.dao.RoleAuthorityDao">
+	<resultMap id="BaseResultMap"
+		type="com.hutu.weixin.weiliaotuan.core.domain.po.RoleAuthority">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="authorityid" property="authorityid" jdbcType="INTEGER" />
+		<result column="roleid" property="roleid" jdbcType="SMALLINT" />
+		<result column="enabled" property="enabled" jdbcType="CHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="creatorid" property="creatorid" jdbcType="VARCHAR" />
+		<result column="modifydate" property="modifydate" jdbcType="TIMESTAMP" />
+		<result column="modifer" property="modifer" jdbcType="VARCHAR" />
+		<result column="modiferid" property="modiferid" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, authorityid, roleid, enabled, createdate, creator, creatorid,
+		modifydate, modifer,
+		modiferid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_roleauthority
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAllByRoleId" resultMap="BaseResultMap"
+		parameterType="java.lang.Short">
+		select
+		<include refid="Base_Column_List" />
+		from t_roleauthority
+		where roleid = #{roleid,jdbcType=SMALLINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_roleauthority
+	</select>
+	<select id="selectAllByAuthorityId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_roleauthority
+		where authorityid = #{authorityid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_roleauthority
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.RoleAuthority">
+		insert into t_roleauthority (id, authorityid, roleid,
+		enabled, createdate, creator,
+		creatorid, modifydate, modifer,
+		modiferid)
+		values (#{id,jdbcType=INTEGER}, #{authorityid,jdbcType=INTEGER},
+		#{roleid,jdbcType=SMALLINT},
+		#{enabled,jdbcType=CHAR}, #{createdate,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR},
+		#{creatorid,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP},
+		#{modifer,jdbcType=VARCHAR},
+		#{modiferid,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.RoleAuthority">
+		insert into t_roleauthority
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="authorityid != null">
+				authorityid,
+			</if>
+			<if test="roleid != null">
+				roleid,
+			</if>
+			<if test="enabled != null">
+				enabled,
+			</if>
+			<if test="createdate != null">
+				createdate,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="creatorid != null">
+				creatorid,
+			</if>
+			<if test="modifydate != null">
+				modifydate,
+			</if>
+			<if test="modifer != null">
+				modifer,
+			</if>
+			<if test="modiferid != null">
+				modiferid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="authorityid != null">
+				#{authorityid,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				#{roleid,jdbcType=SMALLINT},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=CHAR},
+			</if>
+			<if test="createdate != null">
+				#{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorid != null">
+				#{creatorid,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				#{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifer != null">
+				#{modifer,jdbcType=VARCHAR},
+			</if>
+			<if test="modiferid != null">
+				#{modiferid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.RoleAuthority">
+		update t_roleauthority
+		<set>
+			<if test="authorityid != null">
+				authorityid = #{authorityid,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				roleid = #{roleid,jdbcType=SMALLINT},
+			</if>
+			<if test="enabled != null">
+				enabled = #{enabled,jdbcType=CHAR},
+			</if>
+			<if test="createdate != null">
+				createdate = #{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorid != null">
+				creatorid = #{creatorid,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				modifydate = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifer != null">
+				modifer = #{modifer,jdbcType=VARCHAR},
+			</if>
+			<if test="modiferid != null">
+				modiferid = #{modiferid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.RoleAuthority">
+		update t_roleauthority
+		set authorityid = #{authorityid,jdbcType=INTEGER},
+		roleid = #{roleid,jdbcType=SMALLINT},
+		enabled = #{enabled,jdbcType=CHAR},
+		createdate = #{createdate,jdbcType=TIMESTAMP},
+		creator = #{creator,jdbcType=VARCHAR},
+		creatorid = #{creatorid,jdbcType=VARCHAR},
+		modifydate = #{modifydate,jdbcType=TIMESTAMP},
+		modifer = #{modifer,jdbcType=VARCHAR},
+		modiferid = #{modiferid,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

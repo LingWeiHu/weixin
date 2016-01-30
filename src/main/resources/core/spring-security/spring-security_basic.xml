@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	<!-- 为RESTFul进行安全验证配置 -->
+	<security:http auto-config="false" disable-url-rewriting="true"
+		create-session="stateless" entry-point-ref="digestEntryPoint">
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+
+		<!-- 摘要认证 -->
+		<security:custom-filter ref="digestFilter"
+			position="BASIC_AUTH_FILTER" />
+
+		<!-- 防止跨站提交攻击 -->
+		<security:csrf request-matcher-ref="csrfSecurityRequestMatcher" />
+
+	</security:http>
+
+	<!-- 验证提供者 -->
+	<bean id="authenticationProvider"
+		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="hideUserNotFoundExceptions" value="false" />
+		<property name="userDetailsService" ref="userDetailsServiceImpl" />
+	</bean>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			ref="authenticationProvider" />
+	</security:authentication-manager>
+
+	<bean id="userDetailsServiceImpl" class="com.hutu.weixin.weiliaotuan.core.security.UserDetailsServiceImpl" />
+
+	<!-- 排除csrf验证对象 -->
+	<bean id="csrfSecurityRequestMatcher"
+		class="com.hutu.weixin.weiliaotuan.core.security.CsrfSecurityRequestMatcher">
+		<property name="execludeUrls">
+			<list>
+				<value>/ws/rest/</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- ====================================Basic认证配置============================== -->
+	<bean id="digestEntryPoint"
+		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="bjjhzh.com" />
+	</bean>
+
+	<bean id="digestFilter"
+		class="com.hutu.weixin.weiliaotuan.core.security.HttpBasicAuthenticationFilter">
+		<constructor-arg>
+			<ref bean="authenticationManager" />
+		</constructor-arg>
+	</bean>
+</beans>

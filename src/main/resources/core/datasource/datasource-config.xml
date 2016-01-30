@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="db_mysql" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url"
+			value="jdbc:mysql://182.92.183.132:3306/billiards_dev?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<!-- <property name="url"
+			value="jdbc:mysql://127.0.0.1:3306/billiards_dev?useUnicode=true&amp;characterEncoding=UTF-8" /> -->
+		<property name="username" value="root" />
+		<property name="password" value="jhzh2501" />
+		<!-- <property name="password" value="root" /> -->
+		
+		<property name="maxActive" value="20" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="1" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x' FROM DUAL" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<!-- 开启Druid的监控统计功能 -->
+		<property name="filters" value="stat" />
+	</bean>
+</beans>

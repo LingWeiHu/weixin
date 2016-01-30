@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hutu.weixin.weiliaotuan.core.dao.UserDao">
+	<resultMap id="BaseResultMap" type="com.hutu.weixin.weiliaotuan.core.domain.po.User">
+		<id column="useraccount" property="useraccount" jdbcType="VARCHAR" />
+		<result column="userpassword" property="userpassword" jdbcType="VARCHAR" />
+		<result column="userpasswordflag" property="userpasswordflag"
+			jdbcType="CHAR" />
+		<result column="useraccountcreatedate" property="useraccountcreatedate"
+			jdbcType="TIMESTAMP" />
+		<result column="useraccountexpiredate" property="useraccountexpiredate"
+			jdbcType="TIMESTAMP" />
+		<result column="userpasswordexpiredate" property="userpasswordexpiredate"
+			jdbcType="TIMESTAMP" />
+		<result column="useraccountlockdate" property="useraccountlockdate"
+			jdbcType="TIMESTAMP" />
+		<result column="useraccountenable" property="useraccountenable"
+			jdbcType="CHAR" />
+			<result column="userimageurl" property="userimageurl"
+			jdbcType="CHAR" />
+			<result column="nickname" property="nickname"
+			jdbcType="CHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,useraccount, userpassword, userpasswordflag, useraccountcreatedate,
+		useraccountexpiredate,
+		userpasswordexpiredate, useraccountlockdate, useraccountenable,userimageurl,nickname
+	</sql>
+	<!-- 在某个球房正在打球的人 -->
+	<select id="selectPlayingByHallKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		u.useraccount,u.userimageurl 
+		FROM t_billinfo bi LEFT JOIN t_user u ON u.id=bi.userid 
+		WHERE bi.hallid = #{hallid}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where useraccount = #{useraccount,jdbcType=VARCHAR}
+	</select>
+	<select id="selectDynamicUsersByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		SELECT DISTINCT u.id,u.nickname,u.useraccount,u.userimageurl FROM t_dynamicfollow df,t_user u 
+		WHERE df.userid=u.id AND df.dynamicid=#{dynamicid,jdbcType=INTEGER}
+	</select>
+	<select id="selectSelective" resultMap="BaseResultMap"
+		parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.User">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		<where>
+			useraccount = #{useraccount,jdbcType=VARCHAR}
+			<if test="userpassword != null and userpassword != ''">
+			    and userpassword = #{userpassword,jdbcType=VARCHAR}
+			</if>
+			<if test="userpasswordflag != null and userpasswordflag != ''">
+				and userpasswordflag = #{userpasswordflag,jdbcType=CHAR}
+			</if>
+			<if test="useraccountcreatedate != null">
+				and useraccountcreatedate = #{useraccountcreatedate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="useraccountexpiredate != null">
+				and useraccountexpiredate = #{useraccountexpiredate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="userpasswordexpiredate != null">
+				and userpasswordexpiredate = #{userpasswordexpiredate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="useraccountlockdate != null">
+				and useraccountlockdate = #{useraccountlockdate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="useraccountenable != null and useraccountenable != ''">
+				and useraccountenable = #{useraccountenable,jdbcType=CHAR}
+			</if>
+			<if test="userimageurl != null and userimageurl != ''">
+				and userimageurl = #{userimageurl,jdbcType=CHAR}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_user
+		where useraccount = #{useraccount,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.User">
+		insert into t_user (useraccount, userpassword, userpasswordflag,
+		useraccountcreatedate, useraccountexpiredate,
+		userpasswordexpiredate, useraccountlockdate,
+		useraccountenable)
+		values (#{useraccount,jdbcType=VARCHAR}, #{userpassword,jdbcType=VARCHAR},
+		#{userpasswordflag,jdbcType=CHAR},
+		#{useraccountcreatedate,jdbcType=TIMESTAMP},
+		#{useraccountexpiredate,jdbcType=TIMESTAMP},
+		#{userpasswordexpiredate,jdbcType=TIMESTAMP},
+		#{useraccountlockdate,jdbcType=TIMESTAMP},
+		#{useraccountenable,jdbcType=CHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="useraccount != null">
+				useraccount,
+			</if>
+			<if test="userpassword != null">
+				userpassword,
+			</if>
+			<if test="userpasswordflag != null">
+				userpasswordflag,
+			</if>
+			<if test="useraccountcreatedate != null">
+				useraccountcreatedate,
+			</if>
+			<if test="useraccountexpiredate != null">
+				useraccountexpiredate,
+			</if>
+			<if test="userpasswordexpiredate != null">
+				userpasswordexpiredate,
+			</if>
+			<if test="useraccountlockdate != null">
+				useraccountlockdate,
+			</if>
+			<if test="useraccountenable != null">
+				useraccountenable,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="useraccount != null">
+				#{useraccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userpassword != null">
+				#{userpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userpasswordflag != null">
+				#{userpasswordflag,jdbcType=CHAR},
+			</if>
+			<if test="useraccountcreatedate != null">
+				#{useraccountcreatedate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useraccountexpiredate != null">
+				#{useraccountexpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userpasswordexpiredate != null">
+				#{userpasswordexpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useraccountlockdate != null">
+				#{useraccountlockdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useraccountenable != null">
+				#{useraccountenable,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.User">
+		update t_user
+		<set>
+			<if test="userpassword != null">
+				userpassword = #{userpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userpasswordflag != null">
+				userpasswordflag = #{userpasswordflag,jdbcType=CHAR},
+			</if>
+			<if test="useraccountcreatedate != null">
+				useraccountcreatedate = #{useraccountcreatedate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useraccountexpiredate != null">
+				useraccountexpiredate = #{useraccountexpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userpasswordexpiredate != null">
+				userpasswordexpiredate = #{userpasswordexpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useraccountlockdate != null">
+				useraccountlockdate = #{useraccountlockdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useraccountenable != null">
+				useraccountenable = #{useraccountenable,jdbcType=CHAR},
+			</if>
+			<if test="usedbalance != null">
+				usedbalance = #{usedbalance,jdbcType=CHAR},
+			</if>
+			<if test="largessepoint != null">
+				largessepoint = #{largessepoint,jdbcType=Integer},
+			</if>
+			<if test="availablepoint != null">
+				availablepoint = #{availablepoint,jdbcType=Integer},
+			</if>
+			<if test="userimageurl != null">
+				userimageurl = #{userimageurl,jdbcType=CHAR},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where useraccount = #{useraccount,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.User">
+		update t_user
+		set userpassword = #{userpassword,jdbcType=VARCHAR},
+		userpasswordflag = #{userpasswordflag,jdbcType=CHAR},
+		useraccountcreatedate = #{useraccountcreatedate,jdbcType=TIMESTAMP},
+		useraccountexpiredate = #{useraccountexpiredate,jdbcType=TIMESTAMP},
+		userpasswordexpiredate = #{userpasswordexpiredate,jdbcType=TIMESTAMP},
+		useraccountlockdate = #{useraccountlockdate,jdbcType=TIMESTAMP},
+		useraccountenable = #{useraccountenable,jdbcType=CHAR}
+		where useraccount = #{useraccount,jdbcType=VARCHAR}
+	</update>
+</mapper>

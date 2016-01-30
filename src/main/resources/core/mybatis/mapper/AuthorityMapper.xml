@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hutu.weixin.weiliaotuan.core.dao.AuthorityDao">
+<cache></cache><!-- 加入cache缓存 -->
+	<resultMap id="BaseResultMap"
+		type="com.hutu.weixin.weiliaotuan.core.domain.po.Authority">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="authorityname" property="authorityname"
+			jdbcType="VARCHAR" />
+		<result column="authoritycode" property="authoritycode"
+			jdbcType="VARCHAR" />
+		<result column="authorityurl" property="authorityurl" jdbcType="VARCHAR" />
+		<result column="enabled" property="enabled" jdbcType="CHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="creatorid" property="creatorid" jdbcType="VARCHAR" />
+		<result column="modifydate" property="modifydate" jdbcType="TIMESTAMP" />
+		<result column="modifer" property="modifer" jdbcType="VARCHAR" />
+		<result column="modiferid" property="modiferid" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, authorityname, authoritycode, authorityurl, enabled, createdate,
+		creator,
+		creatorid, modifydate, modifer, modiferid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_authority
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_authority
+	</select>
+	<select id="selectOne" resultMap="BaseResultMap" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.Authority">
+		select
+		<include refid="Base_Column_List" />
+		from t_authority
+		<where>
+			<if test="authorityname != null">
+				and authorityname = #{authorityname,jdbcType=VARCHAR}
+			</if>
+			<if test="authoritycode != null">
+				and authoritycode = #{authoritycode,jdbcType=VARCHAR}
+			</if>
+			<if test="authorityurl != null">
+				and authorityurl = #{authorityurl,jdbcType=VARCHAR}
+			</if>
+			<if test="enabled != null">
+				and enabled = #{enabled,jdbcType=CHAR}
+			</if>
+			<if test="createdate != null">
+				and createdate = #{createdate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="creator != null">
+				and creator = #{creator,jdbcType=VARCHAR}
+			</if>
+			<if test="creatorid != null">
+				and creatorid = #{creatorid,jdbcType=VARCHAR}
+			</if>
+			<if test="modifydate != null">
+				and modifydate = #{modifydate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="modifer != null">
+				and modifer = #{modifer,jdbcType=VARCHAR}
+			</if>
+			<if test="modiferid != null">
+				and modiferid = #{modiferid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_authority
+		where id = #{id,jdbcType=INTEGER}
+	</delete><!-- flushCache="true" 是数据数据发生变化，则同步到缓存中，一般出现增删改的时候要加入该属性 -->
+	<insert flushCache="true" id="insert" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.Authority">
+		insert into t_authority (id, authorityname, authoritycode,
+		authorityurl, enabled, createdate,
+		creator, creatorid, modifydate,
+		modifer, modiferid)
+		values (#{id,jdbcType=INTEGER}, #{authorityname,jdbcType=VARCHAR},
+		#{authoritycode,jdbcType=VARCHAR},
+		#{authorityurl,jdbcType=VARCHAR}, #{enabled,jdbcType=CHAR}, #{createdate,jdbcType=TIMESTAMP},
+		#{creator,jdbcType=VARCHAR}, #{creatorid,jdbcType=VARCHAR},
+		#{modifydate,jdbcType=TIMESTAMP},
+		#{modifer,jdbcType=VARCHAR}, #{modiferid,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.Authority">
+		insert into t_authority
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="authorityname != null">
+				authorityname,
+			</if>
+			<if test="authoritycode != null">
+				authoritycode,
+			</if>
+			<if test="authorityurl != null">
+				authorityurl,
+			</if>
+			<if test="enabled != null">
+				enabled,
+			</if>
+			<if test="createdate != null">
+				createdate,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="creatorid != null">
+				creatorid,
+			</if>
+			<if test="modifydate != null">
+				modifydate,
+			</if>
+			<if test="modifer != null">
+				modifer,
+			</if>
+			<if test="modiferid != null">
+				modiferid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="authorityname != null">
+				#{authorityname,jdbcType=VARCHAR},
+			</if>
+			<if test="authoritycode != null">
+				#{authoritycode,jdbcType=VARCHAR},
+			</if>
+			<if test="authorityurl != null">
+				#{authorityurl,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				#{enabled,jdbcType=CHAR},
+			</if>
+			<if test="createdate != null">
+				#{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorid != null">
+				#{creatorid,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				#{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifer != null">
+				#{modifer,jdbcType=VARCHAR},
+			</if>
+			<if test="modiferid != null">
+				#{modiferid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.Authority">
+		update t_authority
+		<set>
+			<if test="authorityname != null">
+				authorityname = #{authorityname,jdbcType=VARCHAR},
+			</if>
+			<if test="authoritycode != null">
+				authoritycode = #{authoritycode,jdbcType=VARCHAR},
+			</if>
+			<if test="authorityurl != null">
+				authorityurl = #{authorityurl,jdbcType=VARCHAR},
+			</if>
+			<if test="enabled != null">
+				enabled = #{enabled,jdbcType=CHAR},
+			</if>
+			<if test="createdate != null">
+				createdate = #{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="creatorid != null">
+				creatorid = #{creatorid,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				modifydate = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifer != null">
+				modifer = #{modifer,jdbcType=VARCHAR},
+			</if>
+			<if test="modiferid != null">
+				modiferid = #{modiferid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.hutu.weixin.weiliaotuan.core.domain.po.Authority">
+		update t_authority
+		set authorityname = #{authorityname,jdbcType=VARCHAR},
+		authoritycode = #{authoritycode,jdbcType=VARCHAR},
+		authorityurl = #{authorityurl,jdbcType=VARCHAR},
+		enabled = #{enabled,jdbcType=CHAR},
+		createdate = #{createdate,jdbcType=TIMESTAMP},
+		creator = #{creator,jdbcType=VARCHAR},
+		creatorid = #{creatorid,jdbcType=VARCHAR},
+		modifydate = #{modifydate,jdbcType=TIMESTAMP},
+		modifer = #{modifer,jdbcType=VARCHAR},
+		modiferid = #{modiferid,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
